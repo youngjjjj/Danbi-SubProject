@@ -9,30 +9,43 @@ class AuthorSerializers(s.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'pk',
             'username',
         ]
 
 
 class BoardSerializer(s.ModelSerializer):
     author = AuthorSerializers(read_only=True)
+    is_author = s.SerializerMethodField("is_author_field")
+
+    def is_author_field(self, board):
+        if 'request' in self.context:
+            user = self.context['request'].user
+            return board.author == user
 
     class Meta:
         model = Boards
         fields = [
             'pk',
             'author',
+            'is_author',
             'content',
         ]
 
 
 class CommentSerializer(s.ModelSerializer):
     author = AuthorSerializers(read_only=True)
+    is_author = s.SerializerMethodField("is_author_field")
+
+    def is_author_field(self, comment):
+        if 'request' in self.context:
+            user = self.context['request'].user
+            return comment.author == user
 
     class Meta:
         model = Comment
         fields = [
             'pk',
             'author',
+            'is_author',
             'text',
         ]
