@@ -62,7 +62,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
         if post.author == self.request.user:
             serializer.save()
-            return super().perform_update()
+            return super().perform_update(serializer)
 
         raise PermissionDenied('접근권한이 없습니다.')
 
