@@ -1,9 +1,14 @@
 from django.contrib import admin
-from .models import Boards, Comment
+from .models import Boards, Post, Comment
 
 
 @admin.register(Boards)
 class BoardsAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
     pass
 
 
