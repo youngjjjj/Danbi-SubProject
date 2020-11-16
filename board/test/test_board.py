@@ -28,11 +28,11 @@ class BoardAPITestCase(APITestCase):
             self.get('/board/')
             self.assert_http_200_ok()
 
-    def test_board_post_anonymous_user(self):
+    def test_board_create_anonymous_user(self):
         self.create_board()
         self.assert_http_403_forbidden()
 
-    def test_board_post_authenticated_user(self):
+    def test_board_create_authenticated_user(self):
         with self.login(username='user1', password='strong_password_1'):
             random_num = random.randint(3, 10)
 
