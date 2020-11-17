@@ -1,0 +1,2 @@
+[report]
+omit = manage.py, board/admin.py, subproject/asgi.py, subproject/wsgi.py, subproject/views.py, subproject/urls.py,*tests*,*migrations*,*/apps.py,*/settings_*.py
