@@ -106,17 +106,29 @@ class PostAPITestCase(APITestCase):
         is_post = Post.objects.exists()
         self.assertTrue(is_post)
 
-    def test_post_like_post(self):
+    def test_post_like_create(self):
         with self.login(username='user1', password='strong_password_1'):
             self.create_board()
             self.create_post(self.board_pk)
 
         self.post(f'/board/{self.board_pk}/post/{self.post_pk}/like/')
         self.assert_http_403_forbidden()
+        post = Post.objects.first()
+        like_count = post.like_post.count()
+        self.assertEqual(like_count, 0)
 
         with self.login(username='user2', password='strong_password_2'):
             self.post(f'/board/{self.board_pk}/post/{self.post_pk}/like/')
             self.assert_http_201_created()
+            post = Post.objects.first()
+            like_count = post.like_post.count()
+            self.assertEqual(like_count, 1)
+
+            self.post(f'/board/{self.board_pk}/post/{self.post_pk}/like/')
+            self.assert_http_400_bad_request()
+            post = Post.objects.first()
+            like_count = post.like_post.count()
+            self.assertEqual(like_count, 1)
 
     def test_post_like_get(self):
         with self.login(username='user1', password='strong_password_1'):
